@@ -69,9 +69,10 @@ class Kategori:
         sitemap = get('https://www.trendyol.com/sitemap_categories.xml', headers=self.kimlik)
         secici  = Selector(sitemap.text)
 
-        linkler = [link.replace('https://m.trendyol.com/', '') for link in secici.xpath('//@href').getall()]
+        linkler = [link.replace('<loc>https://www.trendyol.com/', '') for link in secici.xpath('//loc').getall()]
 
-        return {link.split('-x-')[0] : f"-x-{link.split('-x-')[1]}" for link in linkler}
+        return {link.split('-x-')[0] : f"-x-{link.split('-x-')[1][:-6]}" for link in linkler}
+
 
     @staticmethod
     def _ascii_decode(metin:str) -> str:
